@@ -1,10 +1,13 @@
 import { AuthProvider } from './context/AuthContext'
+import { CartProvider } from './context/CartContext'
 import { MenuPage } from './pages/MenuPage'
 
 function App() {
   return (
     <AuthProvider>
-      <MenuPage />
+      <CartProvider>
+        <MenuPage />
+      </CartProvider>
     </AuthProvider>
   )
 }

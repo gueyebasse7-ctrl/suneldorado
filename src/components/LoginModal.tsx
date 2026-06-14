@@ -7,16 +7,21 @@ interface Props {
 
 export function LoginModal({ onClose }: Props) {
   const { login } = useAuth()
-  const [user, setUser] = useState('')
+  const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
   const [err, setErr] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (login(user, pass)) {
+    setLoading(true)
+    setErr('')
+    const ok = await login(email, pass)
+    if (ok) {
       onClose()
     } else {
-      setErr('Identifiants incorrects')
+      setErr('Email ou mot de passe incorrect')
+      setLoading(false)
     }
   }
 
@@ -34,12 +39,12 @@ export function LoginModal({ onClose }: Props) {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-xs text-stone-400 mb-1.5 uppercase tracking-wider">
-              Nom d'utilisateur
+              Email
             </label>
             <input
-              type="text"
-              value={user}
-              onChange={e => { setUser(e.target.value); setErr('') }}
+              type="email"
+              value={email}
+              onChange={e => { setEmail(e.target.value); setErr('') }}
               className="w-full bg-stone-800 border border-stone-700 rounded-lg px-4 py-2.5 text-stone-200 focus:outline-none focus:border-amber-600"
               autoFocus
             />
@@ -61,14 +66,16 @@ export function LoginModal({ onClose }: Props) {
               type="button"
               onClick={onClose}
               className="flex-1 py-2.5 rounded-lg border border-stone-700 text-stone-400 hover:bg-stone-800 transition-colors"
+              disabled={loading}
             >
               Annuler
             </button>
             <button
               type="submit"
-              className="flex-1 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold transition-colors"
+              disabled={loading}
+              className="flex-1 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold transition-colors disabled:opacity-50"
             >
-              Connexion
+              {loading ? 'Connexion...' : 'Connexion'}
             </button>
           </div>
         </form>

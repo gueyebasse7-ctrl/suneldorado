@@ -1,32 +1,42 @@
-import { createContext, useContext, useState, ReactNode } from 'react'
-
-const ADMIN_USER = 'Eldchef26'
-const ADMIN_PASS = 'Eld_Dor@do!!!'
-const SESSION_KEY = 'sun-dorado-admin'
+import { createContext, useContext, useState, useEffect } from 'react'
+import type { ReactNode } from 'react'
+import { supabase } from '../lib/supabase'
 
 interface AuthContextType {
   isAdmin: boolean
-  login: (user: string, pass: string) => boolean
-  logout: () => void
+  login: (email: string, pass: string) => Promise<boolean>
+  logout: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isAdmin, setIsAdmin] = useState(() => sessionStorage.getItem(SESSION_KEY) === 'true')
+const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL
 
-  const login = (user: string, pass: string) => {
-    if (user === ADMIN_USER && pass === ADMIN_PASS) {
-      setIsAdmin(true)
-      sessionStorage.setItem(SESSION_KEY, 'true')
-      return true
-    }
-    return false
+function isAdminUser(session: { user: { email?: string } } | null): boolean {
+  if (!session || !ADMIN_EMAIL) return false
+  return session.user.email === ADMIN_EMAIL
+}
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [isAdmin, setIsAdmin] = useState(false)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAdmin(isAdminUser(session))
+    })
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAdmin(isAdminUser(session))
+    })
+    return () => subscription.unsubscribe()
+  }, [])
+
+  const login = async (email: string, pass: string): Promise<boolean> => {
+    const { error } = await supabase.auth.signInWithPassword({ email, password: pass })
+    return !error
   }
 
-  const logout = () => {
-    setIsAdmin(false)
-    sessionStorage.removeItem(SESSION_KEY)
+  const logout = async () => {
+    await supabase.auth.signOut()
   }
 
   return (

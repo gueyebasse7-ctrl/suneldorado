@@ -1,5 +1,10 @@
 export type Category = 'entrees' | 'plats' | 'desserts' | 'boissons'
 
+export interface CartItem {
+  item: MenuItem
+  quantity: number
+}
+
 export interface MenuItem {
   id: string
   name: string
