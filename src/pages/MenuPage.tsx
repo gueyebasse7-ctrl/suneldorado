@@ -48,7 +48,7 @@ export function MenuPage() {
   })).filter(g => activeCategory === 'all' ? g.items.length > 0 : g.cat.id === activeCategory)
 
   return (
-    <div className="min-h-screen bg-neutral-950">
+    <div className="min-h-screen w-full bg-neutral-950">
 
       {/* Header */}
       <header className="bg-neutral-900 border-b border-neutral-800 sticky top-0 z-40">
@@ -202,7 +202,7 @@ export function MenuPage() {
         {/* Sections par catégorie */}
         {!loading && !error && grouped.map(({ cat, items: catItems }) => (
           <section key={cat.id} className="mb-16 sm:mb-24">
-            <div className="flex items-center gap-3 mb-1">
+            <div className="flex items-center justify-center gap-3 mb-1">
               <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center text-base sm:text-lg flex-shrink-0 ${cat.bgColor}`}>
                 {cat.emoji}
               </div>
