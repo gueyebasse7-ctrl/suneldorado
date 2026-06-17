@@ -52,7 +52,7 @@ export function MenuPage() {
 
       {/* Header */}
       <header className="bg-neutral-900 border-b border-neutral-800 sticky top-0 z-40">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3">
 
           {/* Logo + titre */}
           <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
@@ -66,7 +66,7 @@ export function MenuPage() {
           </div>
 
           {/* Citation — masquée sur mobile et tablette */}
-          <p className="hidden lg:block text-amber-500/70 text-sm italic text-center flex-1 px-4">
+          <p className="hidden lg:block text-amber-400 text-sm italic text-center flex-1 px-4">
             « Une expérience culinaire d'exception au cœur de l'hôtel »
           </p>
 
@@ -90,13 +90,13 @@ export function MenuPage() {
       <div className="relative w-full h-56 sm:h-72 md:h-96 overflow-hidden bg-neutral-950">
         <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(ellipse at 30% 50%, #78350f55 0%, transparent 60%), radial-gradient(ellipse at 70% 40%, #92400e44 0%, transparent 55%)' }} />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-          <p className="text-amber-400/70 text-xs sm:text-sm uppercase tracking-[0.3em] font-medium mb-3">
+          <p className="text-amber-400 text-xs sm:text-sm uppercase tracking-[0.3em] font-medium mb-3">
             ✦ Hôtel &amp; Restaurant ✦
           </p>
           <h2 className="font-display text-3xl sm:text-5xl md:text-6xl font-bold text-white">
             Sun El Dorado
           </h2>
-          <p className="text-amber-300/70 text-sm sm:text-base mt-4 italic font-light">
+          <p className="text-amber-200 text-sm sm:text-base mt-4 italic font-light">
             « Une expérience culinaire d'exception au cœur de l'hôtel »
           </p>
         </div>
@@ -104,7 +104,7 @@ export function MenuPage() {
 
       {/* Barre tableau de bord Admin */}
       {isAdmin && (
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-4">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-4">
           <div className="bg-[#2a1500] border border-amber-900/50 rounded-2xl px-5 py-4 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-amber-900/40 border border-amber-800/50 flex items-center justify-center text-xl flex-shrink-0">
@@ -135,7 +135,7 @@ export function MenuPage() {
         </div>
       )}
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8 pb-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8 pb-12">
 
         {/* Tabs catégories — scroll horizontal sur mobile */}
         <div className="flex flex-wrap justify-center gap-2 mb-6 pb-1">
@@ -154,7 +154,7 @@ export function MenuPage() {
               >
                 <span>{cat.emoji}</span>
                 <span>{cat.id === 'all' ? 'Tout le Menu' : cat.label}</span>
-                <span className={`font-bold text-[11px] ${isActive ? 'text-neutral-800' : 'text-neutral-500'}`}>{count}</span>
+                <span className={`font-bold text-[11px] ${isActive ? 'text-neutral-800' : 'text-neutral-400'}`}>{count}</span>
               </button>
             )
           })}
@@ -208,7 +208,7 @@ export function MenuPage() {
               </div>
               <div>
                 <h2 className={`font-bold text-base sm:text-lg leading-tight ${cat.color}`}>{cat.label}</h2>
-                <p className="text-neutral-600 text-xs">{catItems.length} article{catItems.length > 1 ? 's' : ''}</p>
+                <p className="text-neutral-400 text-xs">{catItems.length} article{catItems.length > 1 ? 's' : ''}</p>
               </div>
             </div>
             <div className="h-px bg-neutral-800 mt-3 mb-8 sm:mb-10" />
@@ -230,10 +230,10 @@ export function MenuPage() {
 
       {/* Pied de page */}
       <footer className="border-t border-neutral-800 py-8 sm:py-10 text-center">
-        <p className="text-neutral-300 text-sm font-medium mb-1">
+        <p className="text-neutral-200 text-sm font-medium mb-1">
           ☀️ Sun El Dorado — Hôtel &amp; Restaurant
         </p>
-        <p className="text-neutral-600 text-xs">Menu digital — Tous droits réservés</p>
+        <p className="text-neutral-400 text-xs">Menu digital — Tous droits réservés</p>
       </footer>
 
       {/* Modale QR Code */}
