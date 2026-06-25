@@ -1,5 +1,20 @@
 export type Category = 'entrees' | 'plats' | 'desserts' | 'boissons'
 
+export type ReservationStatus = 'pending' | 'confirmed' | 'cancelled'
+
+export interface Reservation {
+  id: string
+  name: string
+  email: string
+  phone: string
+  date: string
+  time: string
+  guests: number
+  message: string
+  status: ReservationStatus
+  created_at: string
+}
+
 export interface CartItem {
   item: MenuItem
   quantity: number

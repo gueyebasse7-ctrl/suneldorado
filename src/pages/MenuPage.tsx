@@ -5,6 +5,9 @@ import { useAuth } from '../context/AuthContext'
 import { MenuCard } from '../components/MenuCard'
 import { MenuItemForm } from '../components/MenuItemForm'
 import { LoginModal } from '../components/LoginModal'
+import { ReservationModal } from '../components/ReservationModal'
+import { ReservationsList } from '../components/ReservationsList'
+import { useReservations } from '../hooks/useReservations'
 import { CATEGORIES } from '../types'
 import type { MenuItem } from '../types'
 
@@ -13,10 +16,13 @@ const MENU_URL = 'https://restaurante-sun-el-dorado.vercel.app/'
 export function MenuPage() {
   const { items, filteredItems, loading, error, activeCategory, setActiveCategory, searchQuery, setSearchQuery, addItem, updateItem, deleteItem, toggleAvailability } = useMenu()
   const { isAdmin, logout } = useAuth()
+  const { addReservation } = useReservations()
 
   const [showLogin, setShowLogin] = useState(false)
   const [showForm, setShowForm] = useState(false)
   const [showQR, setShowQR] = useState(false)
+  const [showReservation, setShowReservation] = useState(false)
+  const [showReservationsList, setShowReservationsList] = useState(false)
   const [editTarget, setEditTarget] = useState<MenuItem | null>(null)
 
   const handleEdit = (item: MenuItem) => {
@@ -99,6 +105,12 @@ export function MenuPage() {
           <p className="text-amber-200 text-sm sm:text-base mt-4 italic font-light">
             « Une expérience culinaire d'exception au cœur de l'hôtel »
           </p>
+          <button
+            onClick={() => setShowReservation(true)}
+            className="mt-6 bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold px-7 py-3 rounded-full transition-colors text-sm shadow-lg shadow-amber-900/40"
+          >
+            🍽️ Réserver une table
+          </button>
         </div>
       </div>
 
@@ -115,7 +127,18 @@ export function MenuPage() {
                 <p className="text-neutral-500 text-xs mt-0.5">Gérez votre carte du restaurant</p>
               </div>
             </div>
-            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 flex-wrap">
+              <button
+                onClick={() => setShowReservationsList(!showReservationsList)}
+                className={`flex items-center gap-2 border text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-xl transition-all ${
+                  showReservationsList
+                    ? 'border-amber-600/60 text-amber-300 bg-amber-900/20'
+                    : 'border-neutral-700 text-neutral-300 hover:border-amber-700/60 hover:text-amber-300'
+                }`}
+              >
+                <span>📅</span>
+                <span>Réservations</span>
+              </button>
               <button
                 onClick={() => setShowQR(true)}
                 className="flex items-center gap-2 border border-neutral-700 text-neutral-300 hover:border-amber-700/60 hover:text-amber-300 text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-xl transition-all"
@@ -131,6 +154,16 @@ export function MenuPage() {
                 <span>Nouveau plat</span>
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Panneau réservations admin */}
+      {isAdmin && showReservationsList && (
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-4">
+          <div className="bg-[#1a1610] border border-amber-900/30 rounded-2xl px-5 py-5">
+            <h3 className="text-amber-400 font-bold text-sm mb-4">📅 Réservations</h3>
+            <ReservationsList />
           </div>
         </div>
       )}
@@ -256,6 +289,13 @@ export function MenuPage() {
             </button>
           </div>
         </div>
+      )}
+
+      {showReservation && (
+        <ReservationModal
+          onClose={() => setShowReservation(false)}
+          onSubmit={addReservation}
+        />
       )}
 
       {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
